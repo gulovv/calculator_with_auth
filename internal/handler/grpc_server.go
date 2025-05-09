@@ -246,3 +246,32 @@ func validateTokenFromContext(ctx context.Context) (string, error) {
 
     return login, nil
 }
+
+func (s *CalculatorServer) DeleteAllTasks(ctx context.Context, req *pb.DeleteAllTasksRequest) (*pb.DeleteAllTasksResponse, error) {
+    // Валидация токена для получения user_id (или просто использования токена для доступа)
+    login, err := validateTokenFromContext(ctx)
+    if err != nil {
+        return nil, status.Error(codes.Unauthenticated, err.Error())
+    }
+
+    // Получаем user_id из базы данных по логину
+    var userID int
+    err = s.DB.QueryRow("SELECT id FROM users WHERE login = $1", login).Scan(&userID)
+    if err != nil {
+        if err == sql.ErrNoRows {
+            return nil, status.Error(codes.Unauthenticated, "User not found")
+        }
+        return nil, status.Error(codes.Internal, "Internal Server Error")
+    }
+
+    // Удаляем все задачи пользователя из базы данных
+    _, err = s.DB.Exec("DELETE FROM calculations WHERE user_id = $1", userID)
+    if err != nil {
+        log.Println("Ошибка при удалении задач:", err)
+        return nil, status.Error(codes.Internal, "Internal Server Error")
+    }
+
+    return &pb.DeleteAllTasksResponse{
+        Message: "Все задачи были удалены",
+    }, nil
+}

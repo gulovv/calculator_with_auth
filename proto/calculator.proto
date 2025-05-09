@@ -45,6 +45,13 @@ service CalculatorService {
             body: "*"
         };
     }
+
+    // Метод для удаления всех задач
+    rpc DeleteAllTasks (DeleteAllTasksRequest) returns (DeleteAllTasksResponse) {
+        option (google.api.http) = {
+            delete: "/api/v1/tasks/delete"
+        };
+    }
 }
 
 // Запрос на вычисление
@@ -102,4 +109,12 @@ message LoginRequest {
 // Ответ на логин
 message LoginResponse {
     string token = 1;
+}
+
+// Запрос на удаление всех задач
+message DeleteAllTasksRequest {}
+
+// Ответ на удаление всех задач
+message DeleteAllTasksResponse {
+    string message = 1; // Сообщение об успешном удалении
 }

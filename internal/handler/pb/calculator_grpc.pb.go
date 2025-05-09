@@ -24,6 +24,7 @@ const (
 	CalculatorService_GetExpressionByID_FullMethodName = "/calculator.CalculatorService/GetExpressionByID"
 	CalculatorService_Register_FullMethodName          = "/calculator.CalculatorService/Register"
 	CalculatorService_Login_FullMethodName             = "/calculator.CalculatorService/Login"
+	CalculatorService_DeleteAllTasks_FullMethodName    = "/calculator.CalculatorService/DeleteAllTasks"
 )
 
 // CalculatorServiceClient is the client API for CalculatorService service.
@@ -42,6 +43,8 @@ type CalculatorServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	// Метод для логина пользователя
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	// Метод для удаления всех задач
+	DeleteAllTasks(ctx context.Context, in *DeleteAllTasksRequest, opts ...grpc.CallOption) (*DeleteAllTasksResponse, error)
 }
 
 type calculatorServiceClient struct {
@@ -102,6 +105,16 @@ func (c *calculatorServiceClient) Login(ctx context.Context, in *LoginRequest, o
 	return out, nil
 }
 
+func (c *calculatorServiceClient) DeleteAllTasks(ctx context.Context, in *DeleteAllTasksRequest, opts ...grpc.CallOption) (*DeleteAllTasksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteAllTasksResponse)
+	err := c.cc.Invoke(ctx, CalculatorService_DeleteAllTasks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CalculatorServiceServer is the server API for CalculatorService service.
 // All implementations must embed UnimplementedCalculatorServiceServer
 // for forward compatibility.
@@ -118,6 +131,8 @@ type CalculatorServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	// Метод для логина пользователя
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	// Метод для удаления всех задач
+	DeleteAllTasks(context.Context, *DeleteAllTasksRequest) (*DeleteAllTasksResponse, error)
 	mustEmbedUnimplementedCalculatorServiceServer()
 }
 
@@ -142,6 +157,9 @@ func (UnimplementedCalculatorServiceServer) Register(context.Context, *RegisterR
 }
 func (UnimplementedCalculatorServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedCalculatorServiceServer) DeleteAllTasks(context.Context, *DeleteAllTasksRequest) (*DeleteAllTasksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAllTasks not implemented")
 }
 func (UnimplementedCalculatorServiceServer) mustEmbedUnimplementedCalculatorServiceServer() {}
 func (UnimplementedCalculatorServiceServer) testEmbeddedByValue()                           {}
@@ -254,6 +272,24 @@ func _CalculatorService_Login_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CalculatorService_DeleteAllTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAllTasksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CalculatorServiceServer).DeleteAllTasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CalculatorService_DeleteAllTasks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CalculatorServiceServer).DeleteAllTasks(ctx, req.(*DeleteAllTasksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CalculatorService_ServiceDesc is the grpc.ServiceDesc for CalculatorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -280,6 +316,10 @@ var CalculatorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _CalculatorService_Login_Handler,
+		},
+		{
+			MethodName: "DeleteAllTasks",
+			Handler:    _CalculatorService_DeleteAllTasks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

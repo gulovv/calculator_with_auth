@@ -548,6 +548,88 @@ func (x *LoginResponse) GetToken() string {
 	return ""
 }
 
+// Запрос на удаление всех задач
+type DeleteAllTasksRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAllTasksRequest) Reset() {
+	*x = DeleteAllTasksRequest{}
+	mi := &file_calculator_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAllTasksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAllTasksRequest) ProtoMessage() {}
+
+func (x *DeleteAllTasksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_calculator_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAllTasksRequest.ProtoReflect.Descriptor instead.
+func (*DeleteAllTasksRequest) Descriptor() ([]byte, []int) {
+	return file_calculator_proto_rawDescGZIP(), []int{11}
+}
+
+// Ответ на удаление всех задач
+type DeleteAllTasksResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"` // Сообщение об успешном удалении
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteAllTasksResponse) Reset() {
+	*x = DeleteAllTasksResponse{}
+	mi := &file_calculator_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteAllTasksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteAllTasksResponse) ProtoMessage() {}
+
+func (x *DeleteAllTasksResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_calculator_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteAllTasksResponse.ProtoReflect.Descriptor instead.
+func (*DeleteAllTasksResponse) Descriptor() ([]byte, []int) {
+	return file_calculator_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DeleteAllTasksResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_calculator_proto protoreflect.FileDescriptor
 
 const file_calculator_proto_rawDesc = "" +
@@ -586,13 +668,17 @@ const file_calculator_proto_rawDesc = "" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"%\n" +
 	"\rLoginResponse\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token2\xb1\x04\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"\x17\n" +
+	"\x15DeleteAllTasksRequest\"2\n" +
+	"\x16DeleteAllTasksResponse\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xa8\x05\n" +
 	"\x11CalculatorService\x12j\n" +
 	"\tCalculate\x12\x1e.calculator.CalculationRequest\x1a\x1f.calculator.CalculationResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/api/v1/calculate\x12t\n" +
 	"\x0eGetExpressions\x12!.calculator.GetExpressionsRequest\x1a\".calculator.GetExpressionsResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/api/v1/expressions\x12~\n" +
 	"\x11GetExpressionByID\x12$.calculator.GetExpressionByIDRequest\x1a!.calculator.GetExpressionResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/api/v1/expressions/{id}\x12b\n" +
 	"\bRegister\x12\x1b.calculator.RegisterRequest\x1a\x1c.calculator.RegisterResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/v1/register\x12V\n" +
-	"\x05Login\x12\x18.calculator.LoginRequest\x1a\x19.calculator.LoginResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/api/v1/loginB<Z:github.com/gulovv/calculator_with_auth/internal/handler/pbb\x06proto3"
+	"\x05Login\x12\x18.calculator.LoginRequest\x1a\x19.calculator.LoginResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/api/v1/login\x12u\n" +
+	"\x0eDeleteAllTasks\x12!.calculator.DeleteAllTasksRequest\x1a\".calculator.DeleteAllTasksResponse\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/api/v1/tasks/deleteB<Z:github.com/gulovv/calculator_with_auth/internal/handler/pbb\x06proto3"
 
 var (
 	file_calculator_proto_rawDescOnce sync.Once
@@ -606,7 +692,7 @@ func file_calculator_proto_rawDescGZIP() []byte {
 	return file_calculator_proto_rawDescData
 }
 
-var file_calculator_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_calculator_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_calculator_proto_goTypes = []any{
 	(*CalculationRequest)(nil),       // 0: calculator.CalculationRequest
 	(*CalculationResponse)(nil),      // 1: calculator.CalculationResponse
@@ -619,6 +705,8 @@ var file_calculator_proto_goTypes = []any{
 	(*RegisterResponse)(nil),         // 8: calculator.RegisterResponse
 	(*LoginRequest)(nil),             // 9: calculator.LoginRequest
 	(*LoginResponse)(nil),            // 10: calculator.LoginResponse
+	(*DeleteAllTasksRequest)(nil),    // 11: calculator.DeleteAllTasksRequest
+	(*DeleteAllTasksResponse)(nil),   // 12: calculator.DeleteAllTasksResponse
 }
 var file_calculator_proto_depIdxs = []int32{
 	3,  // 0: calculator.GetExpressionsResponse.expressions:type_name -> calculator.Expression
@@ -628,13 +716,15 @@ var file_calculator_proto_depIdxs = []int32{
 	5,  // 4: calculator.CalculatorService.GetExpressionByID:input_type -> calculator.GetExpressionByIDRequest
 	7,  // 5: calculator.CalculatorService.Register:input_type -> calculator.RegisterRequest
 	9,  // 6: calculator.CalculatorService.Login:input_type -> calculator.LoginRequest
-	1,  // 7: calculator.CalculatorService.Calculate:output_type -> calculator.CalculationResponse
-	4,  // 8: calculator.CalculatorService.GetExpressions:output_type -> calculator.GetExpressionsResponse
-	6,  // 9: calculator.CalculatorService.GetExpressionByID:output_type -> calculator.GetExpressionResponse
-	8,  // 10: calculator.CalculatorService.Register:output_type -> calculator.RegisterResponse
-	10, // 11: calculator.CalculatorService.Login:output_type -> calculator.LoginResponse
-	7,  // [7:12] is the sub-list for method output_type
-	2,  // [2:7] is the sub-list for method input_type
+	11, // 7: calculator.CalculatorService.DeleteAllTasks:input_type -> calculator.DeleteAllTasksRequest
+	1,  // 8: calculator.CalculatorService.Calculate:output_type -> calculator.CalculationResponse
+	4,  // 9: calculator.CalculatorService.GetExpressions:output_type -> calculator.GetExpressionsResponse
+	6,  // 10: calculator.CalculatorService.GetExpressionByID:output_type -> calculator.GetExpressionResponse
+	8,  // 11: calculator.CalculatorService.Register:output_type -> calculator.RegisterResponse
+	10, // 12: calculator.CalculatorService.Login:output_type -> calculator.LoginResponse
+	12, // 13: calculator.CalculatorService.DeleteAllTasks:output_type -> calculator.DeleteAllTasksResponse
+	8,  // [8:14] is the sub-list for method output_type
+	2,  // [2:8] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -651,7 +741,7 @@ func file_calculator_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_calculator_proto_rawDesc), len(file_calculator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
