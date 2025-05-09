@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package calculator;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/gulovv/calculator_with_auth/internal/handler/pb";
+
+// Сервис калькулятора
+service CalculatorService {
+    // Метод для вычисления выражения
+    rpc Calculate (CalculationRequest) returns (CalculationResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/calculate"
+            body: "*"
+        };
+    }
+
+    // Метод для получения всех выражений
+    rpc GetExpressions (GetExpressionsRequest) returns (GetExpressionsResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/expressions"
+        };
+    }
+
+    // Метод для получения выражения по ID
+    rpc GetExpressionByID (GetExpressionByIDRequest) returns (GetExpressionResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/expressions/{id}"
+        };
+    }
+
+    // Метод для регистрации пользователя
+    rpc Register (RegisterRequest) returns (RegisterResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/register"
+            body: "*"
+        };
+    }
+
+    // Метод для логина пользователя
+    rpc Login (LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/login"
+            body: "*"
+        };
+    }
+}
+
+// Запрос на вычисление
+message CalculationRequest {
+    string expression = 1; // арифметическое выражение
+}
+
+// Ответ на запрос вычисления
+message CalculationResponse {
+    string id = 1;     // ID вычисления
+    string result = 2; // результат вычисления
+}
+
+// Запрос для получения всех выражений
+message GetExpressionsRequest {}
+
+message Expression {
+    string id = 1;
+    string expression = 2;
+    string result = 3;
+}
+
+// Ответ на запрос всех выражений
+message GetExpressionsResponse {
+    repeated Expression expressions = 1;
+}
+
+// Запрос для получения выражения по ID
+message GetExpressionByIDRequest {
+    string id = 1; // ID выражения
+}
+
+// Ответ на запрос выражения по ID
+message GetExpressionResponse {
+    Expression expression = 1;
+}
+
+// Запрос на регистрацию
+message RegisterRequest {
+    string login = 1;
+    string password = 2;
+}
+
+// Ответ на регистрацию
+message RegisterResponse {
+    string message = 1;
+}
+
+// Запрос на логин
+message LoginRequest {
+    string login = 1;
+    string password = 2;
+}
+
+// Ответ на логин
+message LoginResponse {
+    string token = 1;
+}

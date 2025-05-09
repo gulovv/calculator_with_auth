@@ -1,0 +1,38 @@
+
+services:
+  calculator:
+    build: .
+    container_name: calculator_with_auth
+    ports:
+      - "8080:8080"  # HTTP Gateway
+      - "50051:50051" # gRPC сервер
+    env_file:
+      - .env  # Подключаем файл с переменными окружения
+    volumes:
+      - .:/app
+    networks:
+      - calculator_net
+    depends_on:
+      - db
+      
+  db:
+    image: postgres:14
+    container_name: calculator_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: calculations
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - calculator_net
+    ports:
+      - "5432:5432"
+
+networks:
+  calculator_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
